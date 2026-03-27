@@ -30,6 +30,9 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.
 # Cài đặt Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer install --no-dev --optimize-autoloader
+RUN chmod +x /var/www/html/render-build.sh
 
+# Chạy lệnh build và migrate
+RUN /var/www/html/render-build.sh
 # Mở cổng 80
 EXPOSE 80
