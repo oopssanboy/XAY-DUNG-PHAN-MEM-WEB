@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-
+use Faker\Factory as Faker;
 class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $faker = Faker::create();
         // 1. Tạo 1 tài khoản Admin xịn xò cố định
         User::create([
             'name' => 'Quản trị viên',
@@ -31,7 +32,7 @@ class DatabaseSeeder extends Seeder
             User::factory()->create([
                 'password' => Hash::make('123456'),
                 'role' => 0, 
-                'class' => fake()->randomElement(['12A1', 'CNTT1', 'KTPM2', 'ĐTVT1']), 
+                'class' => $faker->randomElement(['12A1', 'CNTT1', 'KTPM2', 'ĐTVT1']), 
             ]);
         }
     }
