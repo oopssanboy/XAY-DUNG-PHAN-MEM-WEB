@@ -3,21 +3,17 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Faker\Factory as Faker;
+
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
     /**
      * Seed the application's database.
      */
     public function run(): void
     {
-        $faker = Faker::create();
-        // 1. Tạo 1 tài khoản Admin xịn xò cố định
+        // 1. Tạo 1 tài khoản Admin cố định
         User::create([
             'name' => 'Quản trị viên',
             'email' => 'admin@gmail.com',
@@ -27,12 +23,18 @@ class DatabaseSeeder extends Seeder
             'class' => null,
         ]);
 
-        // 2. Dùng vòng lặp chạy 10 lần để đảm bảo mỗi lần là 1 lớp random khác nhau
-        for ($i = 0; $i < 10; $i++) {
-            User::factory()->create([
+        // 2. Danh sách lớp để bốc thăm ngẫu nhiên
+        $classes = ['12A1', 'CNTT1', 'KTPM2', 'ĐTVT1'];
+
+        // 3. Tạo 10 sinh viên bằng vòng lặp (Dùng dữ liệu cứng kết hợp số thứ tự)
+        for ($i = 1; $i <= 10; $i++) {
+            User::create([
+                'name' => "Sinh viên " . $i,
+                'email' => "sinhvien" . $i . "@gmail.com",
                 'password' => Hash::make('123456'),
                 'role' => 0, 
-                'class' => $faker->randomElement(['12A1', 'CNTT1', 'KTPM2', 'ĐTVT1']), 
+                'phone' => '012345678' . ($i - 1),
+                'class' => $classes[array_rand($classes)], // Bốc thăm lớp ngẫu nhiên
             ]);
         }
     }
