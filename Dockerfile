@@ -1,18 +1,19 @@
 FROM php:8.2-apache
 
 # 1. Cài đặt các thư viện hệ thống (Thêm libzip-dev)
+# Cài đặt các thư viện hệ thống cần thiết (Thêm libpq-dev cho PostgreSQL)
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
     libzip-dev \
+    libpq-dev \
     zip \
     unzip \
     git \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    # 2. Cài đặt các extension PHP (Thêm zip)
-    && docker-php-ext-install gd pdo pdo_mysql zip
-
+    # Cài đặt các extension PHP (Thêm pdo_pgsql)
+    && docker-php-ext-install gd pdo pdo_mysql pdo_pgsql zip
 # Bật mod_rewrite cho Apache
 RUN a2enmod rewrite
 
