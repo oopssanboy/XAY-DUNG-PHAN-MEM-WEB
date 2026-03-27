@@ -20,3 +20,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/users/import', [UserController::class, 'import']);
     Route::apiResource('users', UserController::class); 
 });
+Route::get('/force-migrate', function () {
+    try {
+        Artisan::call('migrate:fresh', [
+            '--seed' => true,
+            '--force' => true,
+        ]);
+        return "Database đã được làm mới và nạp dữ liệu!";
+    } catch (\Exception $e) {
+        return "Lỗi: " . $e->getMessage();
+    }
+});
